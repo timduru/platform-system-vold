@@ -530,9 +530,10 @@ int Volume::mountVol() {
                     errno = EIO;
                     /* Badness - abort the mount */
                     SLOGE("%s failed FS checks (%s)", devicePath, strerror(errno));
-                    setState(Volume::State_Idle);
-                    free(fstype);
-                    return -1;
+                    SLOGE("Will try to mount...");
+                    //setState(Volume::State_Idle);
+                    // free(fstype);
+                   // return -1;
                 }
 
                 if (Exfat::doMount(devicePath, getMountpoint(), false, false, false,
