@@ -229,6 +229,13 @@ void Volume::setState(int state) {
         mRetryMount = false;
     }
 
+    // If media was removed and is still seen as mounted by the system => force unmount
+    if (  (state == Volume::State_NoMedia) && isMountpointMounted(getMountpoint()) ) {
+        setState(Volume::State_Mounted);
+        unmountVol(true, false);
+        return;
+    }
+
     mState = state;
 
     SLOGD("Volume %s state changing %d (%s) -> %d (%s)", mLabel,
