@@ -17,6 +17,7 @@ common_src_files := \
 	Devmapper.cpp \
 	ResponseCode.cpp \
 	Xwarp.cpp \
+	VoldUtil.c \
 	fstrim.c \
 	cryptfs.c
 
@@ -25,6 +26,7 @@ common_c_includes := \
 	system/extras/ext4_utils \
 	external/openssl/include \
 	external/e2fsprogs/lib
+	external/scrypt/lib/crypto
 
 common_shared_libraries := \
 	libsysutils \
@@ -35,7 +37,13 @@ common_shared_libraries := \
 	libcrypto \
 	libext2_blkid \
 	liblogwrap \
+	libext4_utils \
 	libcrypto
+
+common_static_libraries := \
+	libfs_mgr \
+	libscrypt_static \
+	libmincrypt
 
 include $(CLEAR_VARS)
 
@@ -67,8 +75,7 @@ LOCAL_C_INCLUDES := $(common_c_includes)
 
 LOCAL_SHARED_LIBRARIES := $(common_shared_libraries)
 
-LOCAL_STATIC_LIBRARIES := \
-	libfs_mgr
+LOCAL_STATIC_LIBRARIES := $(common_static_libraries)
 
 LOCAL_MODULE_TAGS := eng tests
 
@@ -116,8 +123,7 @@ endif
 
 LOCAL_SHARED_LIBRARIES := $(common_shared_libraries)
 
-LOCAL_STATIC_LIBRARIES := \
-	libfs_mgr
+LOCAL_STATIC_LIBRARIES := $(common_static_libraries)
 
 include $(BUILD_EXECUTABLE)
 
