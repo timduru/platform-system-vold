@@ -316,10 +316,6 @@ int Volume::formatVol(bool wipe, const char* fstype) {
     } else {
         fstype2 = strdup(fstype);
     }
-    if (fstype == NULL) {
-        // Default to vfat
-        fstype = "vfat";
-    }
 
     if (mDebug) {
         SLOGI("Formatting volume %s (%s) as %s", getLabel(), devicePath, fstype2);
