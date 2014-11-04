@@ -77,6 +77,17 @@ private:
     public:
         XwarpCmd();
         virtual ~XwarpCmd() {}
+    class StorageCmd : public VoldCommand {
+    public:
+        StorageCmd();
+        virtual ~StorageCmd() {}
+        int runCommand(SocketClient *c, int argc, char ** argv);
+    };
+
+    class CryptfsCmd : public VoldCommand {
+    public:
+        CryptfsCmd();
+        virtual ~CryptfsCmd() {}
         int runCommand(SocketClient *c, int argc, char ** argv);
     };
 

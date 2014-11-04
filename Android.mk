@@ -35,39 +35,54 @@ common_src_files := \
 	Devmapper.cpp \
 	ResponseCode.cpp \
 	cryptfs.c \
+	CheckBattery.cpp \
+	VoldUtil.c \
+	fstrim.c \
 	main.cpp
 
 extra_src_files := \
 	Xwarp.cpp \
-	VoldUtil.c \
-	fstrim.c \
 
 common_c_includes := \
-	$(KERNEL_HEADERS) \
 	system/extras/ext4_utils \
+	system/extras/f2fs_utils \
 	external/openssl/include \
 	external/stlport/stlport \
 	bionic \
 	external/scrypt/lib/crypto \
 	external/e2fsprogs/lib \
 	system/core/fs_mgr/include \
-	system/core/logwrapper/include
+	system/core/logwrapper/include \
+	frameworks/native/include \
+	system/security/keystore \
+	hardware/libhardware/include/hardware \
+	system/security/softkeymaster/include/keymaster
 
 common_libraries := \
 	libsysutils \
+	libext2_blkid \
+	libstlport \
+	libbinder \
 	libcutils \
 	liblog \
 	libdiskconfig \
-	libext2_blkid \
-	liblogwrap
+	libhardware_legacy \
+	liblogwrap \
+	libext4_utils \
+	libf2fs_sparseblock \
+	libcrypto \
+	libselinux \
+	libutils \
+	libhardware \
+	libsoftkeymaster
 
 common_static_libraries := \
 	libfs_mgr \
 	libext4_utils_static \
 	libstlport_static \
 	libscrypt_static \
-	libminshacrypt \
-	libpower
+	libmincrypt \
+	libbatteryservice
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libvold
@@ -91,6 +106,9 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES:= vdc.c
 LOCAL_MODULE:= vdc
 LOCAL_C_INCLUDES := $(KERNEL_HEADERS)
+
+LOCAL_C_INCLUDES :=
+
 LOCAL_CFLAGS := 
 LOCAL_SHARED_LIBRARIES := libcutils
 include $(BUILD_EXECUTABLE)

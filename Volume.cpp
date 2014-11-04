@@ -169,7 +169,7 @@ void Volume::handleVolumeShared() {
 void Volume::handleVolumeUnshared() {
 }
 
-int Volume::handleBlockEvent(NetlinkEvent *evt) {
+int Volume::handleBlockEvent(NetlinkEvent * /*evt*/) {
     errno = ENOSYS;
     return -1;
 }
@@ -291,7 +291,7 @@ int Volume::formatVol(bool wipe, const char* fstype) {
     // Only initialize the MBR if we are formatting the entire device
     if (formatEntireDevice) {
         sprintf(devicePath, "/dev/block/vold/%d:%d",
-                MAJOR(diskNode), MINOR(diskNode));
+                major(diskNode), minor(diskNode));
 
         if (initializeMbr(devicePath)) {
             SLOGE("Failed to initialize MBR (%s)", strerror(errno));
@@ -300,7 +300,7 @@ int Volume::formatVol(bool wipe, const char* fstype) {
     }
 
     sprintf(devicePath, "/dev/block/vold/%d:%d",
-            MAJOR(partNode), MINOR(partNode));
+            major(partNode), minor(partNode));
 
 #ifdef VOLD_EMMC_SHARES_DEV_MAJOR
     // If emmc and sdcard share dev major number, vold may pick
@@ -478,8 +478,8 @@ int Volume::mountVol() {
         char devicePath[255];
         char *fstype = NULL;
 
-        sprintf(devicePath, "/dev/block/vold/%d:%d", MAJOR(deviceNodes[i]),
-                MINOR(deviceNodes[i]));
+        sprintf(devicePath, "/dev/block/vold/%d:%d", major(deviceNodes[i]),
+                minor(deviceNodes[i]));
 
         SLOGI("%s being considered for volume %s\n", devicePath, getLabel());
 
