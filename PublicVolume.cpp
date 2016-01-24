@@ -27,6 +27,7 @@
 #include <base/stringprintf.h>
 #include <base/logging.h>
 #include <cutils/fs.h>
+#include <cutils/properties.h>
 #include <private/android_filesystem_config.h>
 
 #include <fcntl.h>
@@ -35,6 +36,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/param.h>
+
+
 
 using android::base::StringPrintf;
 
@@ -149,19 +153,24 @@ status_t PublicVolume::doMount() {
         return -EIO;
     }
 
+    int defMask = 0007;
+    char value[PROPERTY_VALUE_MAX];
+    property_get("persist.external_drive_world_rw", value, "");
+    if (value[0] == '1') defMask = 0;
+
     if (mFsType == "exfat") {
         ret = exfat::Mount(mDevPath, mRawPath, false, false, false,
-                AID_MEDIA_RW, AID_MEDIA_RW, 0007);
+                AID_MEDIA_RW, AID_MEDIA_RW, defMask);
     } else if (mFsType == "ext4") {
         ret = ext4::Mount(mDevPath, mRawPath, false, false, true);
     } else if (mFsType == "f2fs") {
         ret = f2fs::Mount(mDevPath, mRawPath);
     } else if (mFsType == "ntfs") {
         ret = ntfs::Mount(mDevPath, mRawPath, false, false, false,
-                AID_MEDIA_RW, AID_MEDIA_RW, 0007, true);
+                AID_MEDIA_RW, AID_MEDIA_RW, defMask, true);
     } else if (mFsType == "vfat") {
         ret = vfat::Mount(mDevPath, mRawPath, false, false, false,
-                AID_MEDIA_RW, AID_MEDIA_RW, 0007, true);
+                AID_MEDIA_RW, AID_MEDIA_RW, defMask, true);
     } else {
         ret = ::mount(mDevPath.c_str(), mRawPath.c_str(), mFsType.c_str(), 0, NULL);
     }
