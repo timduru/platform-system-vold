@@ -32,8 +32,8 @@ namespace vold {
 namespace ntfs {
 
 static const char* kMkfsPath = "/system/bin/mkfs.ntfs";
-static const char* kFsckPath = "/system/bin/fsck.ntfs";
-static const char* kMountPath = "/system/bin/mount.ntfs";
+static const char* kFsckPath = "/system/bin/ntfsfix";
+static const char* kMountPath = "/system/bin/ntfs-3g";
 
 bool IsSupported() {
     return access(kMkfsPath, X_OK) == 0
