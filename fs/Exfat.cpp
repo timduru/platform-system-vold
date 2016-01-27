@@ -33,7 +33,7 @@ namespace exfat {
 
 static const char* kMkfsPath = "/system/bin/mkfs.exfat";
 static const char* kFsckPath = "/system/bin/fsck.exfat";
-static const char* kMountPath = "/system/bin/mount.exfat";
+static const char* kMountPath = "/system/bin/mount";
 
 bool IsSupported() {
     return access(kMkfsPath, X_OK) == 0
@@ -58,13 +58,15 @@ status_t Mount(const std::string& source, const std::string& target, bool ro,
     const char* c_target = target.c_str();
 
     sprintf(mountData,
-            "noatime,nodev,nosuid,dirsync,uid=%d,gid=%d,fmask=%o,dmask=%o,%s,%s",
+           "noatime,nodev,nosuid,uid=%d,gid=%d,fmask=%o,dmask=%o,%s,%s", 
             ownerUid, ownerGid, permMask, permMask,
             (executable ? "exec" : "noexec"),
             (ro ? "ro" : "rw"));
 
     std::vector<std::string> cmd;
     cmd.push_back(kMountPath);
+    cmd.push_back("-t");
+    cmd.push_back("exfat");
     cmd.push_back("-o");
     cmd.push_back(mountData);
     cmd.push_back(c_source);
