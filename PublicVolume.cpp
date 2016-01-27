@@ -132,13 +132,13 @@ status_t PublicVolume::doMount() {
 
     int ret = 0;
     if (mFsType == "exfat") {
-        ret = exfat::Check(mDevPath);
+        /*ret = */exfat::Check(mDevPath);
     } else if (mFsType == "ext4") {
         ret = ext4::Check(mDevPath, mRawPath);
     } else if (mFsType == "f2fs") {
         ret = f2fs::Check(mDevPath);
     } else if (mFsType == "ntfs") {
-        ret = ntfs::Check(mDevPath);
+        /*ret = */ntfs::Check(mDevPath);
     } else if (mFsType == "vfat") {
         ret = vfat::Check(mDevPath);
     } else {
