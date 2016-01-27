@@ -228,6 +228,8 @@ status_t PublicVolume::doUnmount() {
         TEMP_FAILURE_RETRY(waitpid(mFusePid, nullptr, 0));
         mFusePid = 0;
     }
+    sync();
+
 
     ForceUnmount(kAsecPath);
 

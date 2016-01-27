@@ -1419,6 +1419,8 @@ int VolumeManager::unmountLoopImage(const char *id, const char *idHash,
         return -1;
     }
 
+    sync();
+
     int i, rc;
     for (i = 1; i <= UNMOUNT_RETRIES; i++) {
         rc = umount(mountPoint);
